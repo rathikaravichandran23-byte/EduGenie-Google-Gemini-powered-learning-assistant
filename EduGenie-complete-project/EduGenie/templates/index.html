@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EduGenie — AI Learning Assistant</title><link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}"></head>
+<body><header class="hero"><div class="eyebrow">YOUR PERSONAL LEARNING COMPANION</div>
+<h1>Welcome to <span>EduGenie</span></h1><p>Ask questions, understand tricky topics, practice with quizzes, and learn at your pace.</p></header>
+<main class="layout"><section class="panel"><h2>What would you like to do?</h2>
+<label for="task">Choose a learning tool</label><select id="task">
+<option value="qa">Ask a question</option><option value="explain">Explain a topic</option><option value="quiz">Generate a quiz</option><option value="summarize">Summarize text</option><option value="learn">Create a learning path</option></select>
+<label for="level">Your level</label><select id="level"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select>
+<label id="inputLabel" for="inputText">Your question</label><textarea id="inputText" rows="7" placeholder="For example: Why is the sky blue?"></textarea>
+<button id="submitBtn">Help me learn →</button><p class="note">Avoid entering private information. AI answers can be wrong; verify important facts.</p></section>
+<section class="panel"><div class="result-top"><h2>Your result</h2><span id="status">Ready</span></div><div id="result" class="result"><p>Your answer will appear here.</p></div></section></main>
+<footer>Made for curious minds · EduGenie</footer>
+<script>
+const task=document.querySelector('#task'), input=document.querySelector('#inputText'), label=document.querySelector('#inputLabel'),
+button=document.querySelector('#submitBtn'), status=document.querySelector('#status'), result=document.querySelector('#result');
+const configs={qa:['Your question','For example: Why is the sky blue?'],explain:['Topic to explain','For example: Photosynthesis'],quiz:['Study text or topic','Paste study notes or a passage'],summarize:['Text to summarize','Paste a paragraph'],learn:['What do you want to learn?','For example: SQL from beginner to advanced']};
+task.addEventListener('change',()=>{label.textContent=configs[task.value][0];input.placeholder=configs[task.value][1]});
+function showText(text){result.replaceChildren();const d=document.createElement('div');d.className='answer';d.textContent=text;result.appendChild(d)}
+function showQuiz(data){result.replaceChildren();(data.questions||[]).forEach((q,i)=>{const card=document.createElement('article');card.className='quiz-card';const h=document.createElement('h3');h.textContent=(i+1)+'. '+q.question;card.appendChild(h);q.options.forEach(opt=>{const b=document.createElement('button');b.className='choice';b.textContent=opt;b.onclick=()=>{card.querySelectorAll('button').forEach(x=>x.disabled=true);const p=document.createElement('p');p.className=opt===q.answer?'correct':'incorrect';p.textContent=opt===q.answer?'Correct! '+(q.explanation||''):'Correct answer: '+q.answer+(q.explanation?'. '+q.explanation:'');b.after(p)};card.appendChild(b)});result.appendChild(card)})}
+button.addEventListener('click',async()=>{const value=input.value.trim();if(!value){status.textContent='Input needed';input.focus();return}
+const mode=task.value, urls={qa:'/qa',explain:'/explain',quiz:'/quiz',summarize:'/summarize',learn:'/learn/recommendations'};
+const payload=mode==='qa'?{question:value}:(mode==='explain'||mode==='learn')?{topic:value,level:document.querySelector('#level').value}:{text:value};
+button.disabled=true;button.textContent='Thinking…';status.textContent='Working';showText('EduGenie is preparing your response…');
+try{const r=await fetch(urls[mode],{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const d=await r.json();if(!r.ok)throw Error(d.detail||'Request failed');if(mode==='quiz')showQuiz(d.result);else showText(d.result);status.textContent='Complete'}
+catch(e){showText("We couldn't complete that request.\n"+e.message+"\nCheck your API key and the VS Code terminal.");status.textContent='Error'}
+finally{button.disabled=false;button.textContent='Help me learn →'}});
+</script></body></html>

@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+:root{--ink:#182333;--muted:#687588;--line:#e4e9f0;--paper:#f5f7fb;--purple:#6757e8}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:'DM Sans',Arial,sans-serif;min-height:100vh}
+.hero{text-align:center;padding:52px 24px 38px;background:radial-gradient(ellipse at top,#e8e5ff,transparent 65%)}
+.eyebrow{font-size:.74rem;letter-spacing:.16em;font-weight:700;color:var(--purple);margin-bottom:14px}
+h1,h2,h3{font-family:Manrope,sans-serif}h1{font-size:clamp(2.2rem,5vw,3.5rem);letter-spacing:-.05em;margin:0 0 12px}h1 span{color:var(--purple)}
+.hero p{max-width:650px;margin:auto;color:var(--muted);line-height:1.7}.layout{width:min(1100px,calc(100% - 32px));margin:0 auto 50px;display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;align-items:start}
+.panel{background:white;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:0 12px 35px #2636530a}h2{font-size:1.2rem;margin:0 0 22px}
+label{display:block;font-size:.88rem;font-weight:700;margin:18px 0 8px}select,textarea{width:100%;font:inherit;color:var(--ink);background:#fbfcfe;border:1px solid #dbe1eb;border-radius:12px;padding:12px;outline:none}
+textarea{resize:vertical;line-height:1.6}select:focus,textarea:focus{border-color:var(--purple)}button{font:inherit;cursor:pointer}
+#submitBtn{width:100%;border:0;border-radius:12px;padding:14px;margin-top:18px;color:white;background:var(--purple);font-weight:700}#submitBtn:disabled{opacity:.65}
+.note,footer{font-size:.8rem;color:var(--muted);line-height:1.55}.result-top{display:flex;justify-content:space-between;align-items:center}.result-top h2{margin:0}.result-top span{background:#f0efff;color:var(--purple);border-radius:20px;padding:6px 10px;font-size:.75rem;font-weight:700}
+.result{margin-top:22px;min-height:260px;color:var(--muted);line-height:1.75}.answer{white-space:pre-wrap;color:#354155}.quiz-card{border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}.quiz-card h3{font-size:1rem}
+.choice{display:block;width:100%;text-align:left;padding:10px;margin:7px 0;border:1px solid var(--line);border-radius:9px;background:white}.choice:hover:not(:disabled){border-color:var(--purple)}
+.correct,.incorrect{padding:8px;border-radius:8px}.correct{background:#e7f8ee;color:#176b3a}.incorrect{background:#fff0e9;color:#9c3d20}
+footer{text-align:center;padding:0 20px 28px}@media(max-width:760px){.layout{grid-template-columns:1fr}.panel{padding:20px}}
